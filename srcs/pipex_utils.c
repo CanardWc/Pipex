@@ -6,7 +6,7 @@
 /*   By: fgrea <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:13:42 by fgrea             #+#    #+#             */
-/*   Updated: 2021/11/09 16:13:43 by fgrea            ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 21:09:01 by fgrea            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	pipex_error(void)
 {
 	if (errno == 0)
-		ft_printf("Wrong arguments\n");
+		ft_putstr_fd("Wrong arguments\n", 1);
 	else
 		perror(strerror(errno));
 	exit(0);
