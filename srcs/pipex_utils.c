@@ -2,7 +2,10 @@
 
 void	pipex_error(void)
 {
-	perror(strerror(errno));
+	if (errno == 0)
+		ft_printf("Wrong arguments\n");
+	else
+		perror(strerror(errno));
 	exit(0);
 }
 
