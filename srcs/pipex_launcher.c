@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_launcher.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgrea <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 16:08:37 by fgrea             #+#    #+#             */
+/*   Updated: 2021/11/09 16:13:12 by fgrea            ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <pipex.h>
 
 void	pipex_setup_child(int ac, int ***fd, pid_t **child)
@@ -60,16 +72,16 @@ void	pipex_stdout(int ac, char **av, int **fd, int i)
 	}
 }
 
-void	pipex_child(int ac, char **av, char **path_env, int **fd, int i)
+void	pipex_child(t_data data, char **path_env, int **fd, int i)
 {
 	char	*path;
 	char	**cmd;
-	int	j;
+	int		j;
 
-	cmd = ft_split(av[i + 2], ' ');
-	pipex_stdin(av, fd, i);
-	pipex_stdout(ac, av, fd, i);
-	path = pipex_find_path(av[i + 2], path_env);
+	cmd = ft_split(data.av[i + 2], ' ');
+	pipex_stdin(data.av, fd, i);
+	pipex_stdout(data.ac, data.av, fd, i);
+	path = pipex_find_path(data.av[i + 2], path_env);
 	if (path == NULL)
 		pipex_error();
 	if (execve(path, cmd, path_env) == -1)
@@ -83,18 +95,18 @@ void	pipex_child(int ac, char **av, char **path_env, int **fd, int i)
 	path = NULL;
 }
 
-void	pipex_launcher(int ac, char **av, char **path_env)
+void	pipex_launcher(t_data data, char **path_env)
 {
 	pid_t	*child;
-	int	**fd;
-	int	status;
-	int	i;
+	int		**fd;
+	int		status;
+	int		i;
 
 	child = NULL;
 	fd = NULL;
-	pipex_setup_child(ac, &fd, &child);
+	pipex_setup_child(data.ac, &fd, &child);
 	i = 0;
-	while (i < (ac - 3))
+	while (i < (data.ac - 3))
 	{
 		pipe(fd[i]);
 		child[i] = fork();
@@ -103,11 +115,11 @@ void	pipex_launcher(int ac, char **av, char **path_env)
 		else if (child[i] > 0)
 			close(fd[i][1]);
 		else
-			pipex_child(ac, av, path_env, fd, i);
+			pipex_child(data, path_env, fd, i);
 		i++;
 	}
 	i = 0;
-	while (i < (ac - 3))
+	while (i < (data.ac - 3))
 		waitpid(child[i++], &status, 0);
 	exit(0);
 }
