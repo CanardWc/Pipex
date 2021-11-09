@@ -6,7 +6,7 @@
 /*   By: fgrea <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:03:24 by fgrea             #+#    #+#             */
-/*   Updated: 2021/11/09 16:13:22 by fgrea            ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 18:44:48 by fgrea            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 typedef struct s_data
 {
 	int		ac;
-	char 	**av;
+	char	**av;
 }	t_data;
 
 typedef struct s_child
